@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Coverage report — StoryLab</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#2C2B30;
+    --ink-soft:#6B6970;
+    --paper:#FAF9F7;
+    --card:#FFFFFF;
+    --line:#E6E3DD;
+    --grey-deep:#4A4850;
+    --orange:#E8540D;
+    --orange-bright:#FF7438;
+    --tint:#FDEEE5;
+    --tint-grey:#F1F0EE;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .page{max-width:880px;margin:0 auto;padding:0 32px 80px;}
+  h1,h2,h3{font-family:'Fraunces',serif;margin:0;}
+
+  /* ---- Header ---- */
+  header{
+    padding:40px 0 32px;
+    border-bottom:1px solid var(--line);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+  }
+  .brandmark{display:flex;align-items:baseline;gap:2px;font-family:'Fraunces',serif;font-weight:600;font-size:22px;}
+  .brandmark .story{color:var(--grey-deep);}
+  .brandmark .lab{color:var(--orange);}
+  .tag{
+    font-size:12px;
+    color:var(--orange);
+    background:var(--tint);
+    border:1px solid #FAD9C6;
+    padding:4px 12px;
+    border-radius:100px;
+    font-weight:500;
+    white-space:nowrap;
+  }
+
+  /* ---- Hero ---- */
+  .hero{padding:44px 0 8px;}
+  .eyebrow{
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.12em;
+    color:var(--orange);
+    font-weight:600;
+    margin-bottom:14px;
+  }
+  .headline{
+    font-size:29px;
+    line-height:1.3;
+    font-weight:600;
+    letter-spacing:-0.005em;
+    max-width:680px;
+  }
+  .meta-row{
+    display:flex;
+    gap:28px;
+    margin-top:20px;
+    font-size:13px;
+    color:var(--ink-soft);
+    flex-wrap:wrap;
+  }
+  .meta-row strong{color:var(--ink);font-weight:600;}
+  .summary{
+    margin-top:24px;
+    padding:18px 22px;
+    background:var(--tint);
+    border-left:3px solid var(--orange);
+    border-radius:0 10px 10px 0;
+    font-size:14.5px;
+    line-height:1.6;
+    color:#4A2A18;
+  }
+  .summary b{font-family:'Inter',sans-serif;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:6px;color:var(--orange);}
+
+  /* ---- Stat strip ---- */
+  .stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+    margin:40px 0;
+  }
+  .stat{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:22px 20px;
+  }
+  .stat .num{
+    font-family:'Fraunces',serif;
+    font-size:32px;
+    font-weight:700;
+    color:var(--grey-deep);
+    letter-spacing:-0.01em;
+    line-height:1;
+  }
+  .stat .label{
+    margin-top:8px;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    font-weight:500;
+  }
+  .stat .sub{
+    margin-top:2px;
+    font-size:11.5px;
+    color:#9D9A91;
+  }
+
+  /* ---- Section heading ---- */
+  .section{margin:56px 0;}
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    margin-bottom:20px;
+    flex-wrap:wrap;
+    gap:6px;
+  }
+  .section-head h2{font-size:19px;font-weight:600;}
+  .section-head .note{font-size:12.5px;color:var(--ink-soft);}
+
+  /* ---- Coverage cards ---- */
+  .articles{display:flex;flex-direction:column;gap:10px;}
+  .article{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:16px 18px;
+    display:grid;
+    grid-template-columns:28px 1fr auto;
+    align-items:center;
+    gap:14px;
+  }
+  .article .rank{
+    font-family:'Inter',sans-serif;
+    font-size:13px;
+    font-weight:700;
+    color:var(--orange);
+    background:var(--tint);
+    width:28px;height:28px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .article .title{font-size:14px;font-weight:600;line-height:1.4;}
+  .article .outlet-row{
+    margin-top:4px;
+    font-size:12px;
+    color:var(--ink-soft);
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    align-items:center;
+  }
+  .article .outlet-row span{display:inline-flex;align-items:center;gap:4px;}
+  .article .metrics{
+    text-align:right;
+    font-size:12px;
+    color:var(--ink-soft);
+    white-space:nowrap;
+  }
+  .flag{
+    display:inline-block;
+    font-size:10.5px;
+    font-weight:600;
+    padding:2px 8px;
+    border-radius:100px;
+    background:var(--tint-grey);
+    color:var(--grey-deep);
+  }
+  .kmp{
+    display:block;
+    margin-top:6px;
+    font-size:10.5px;
+    font-weight:600;
+    color:var(--ink-soft);
+  }
+  .kmp b{color:var(--grey-deep);}
+
+  /* ---- Velocity chart ---- */
+  .chart-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:24px 24px 16px;
+  }
+  .chart-wrap{position:relative;height:220px;}
+  .insight{
+    margin-top:14px;
+    padding-top:14px;
+    border-top:1px solid var(--line);
+    font-size:13px;
+    color:var(--ink-soft);
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+  }
+  .insight b{color:var(--grey-deep);font-weight:600;}
+
+  /* ---- Funnel ---- */
+  .funnel{display:flex;flex-direction:column;gap:8px;}
+  .funnel-row{
+    display:grid;
+    grid-template-columns:190px 1fr 90px;
+    align-items:center;
+    gap:14px;
+  }
+  .funnel-label{font-size:13px;font-weight:500;color:var(--ink);}
+  .funnel-track{
+    background:#EFEDE7;
+    border-radius:8px;
+    height:30px;
+    position:relative;
+    overflow:hidden;
+  }
+  .funnel-fill{
+    height:100%;
+    border-radius:8px;
+    background:linear-gradient(90deg,var(--grey-deep),var(--orange-bright));
+  }
+  .funnel-value{font-size:13px;font-weight:600;text-align:right;color:var(--ink);}
+  .funnel-sub{font-size:11px;color:var(--ink-soft);text-align:right;}
+
+  /* ---- List table ---- */
+  table.lists{width:100%;border-collapse:collapse;font-size:12.5px;}
+  table.lists th{
+    text-align:left;
+    font-weight:600;
+    color:var(--ink-soft);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    padding:0 10px 10px;
+    border-bottom:1px solid var(--line);
+  }
+  table.lists td{
+    padding:10px;
+    border-bottom:1px solid #F1EFE9;
+  }
+  table.lists tr:last-child td{border-bottom:none;}
+  .pill{
+    display:inline-block;
+    background:var(--tint);
+    color:var(--orange);
+    font-weight:600;
+    font-size:11px;
+    padding:1px 8px;
+    border-radius:100px;
+  }
+  .pill.zero{background:#F1F0E9;color:#ACA99E;}
+  .outside-note{
+    margin-top:16px;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    background:var(--tint);
+    padding:12px 16px;
+    border-radius:10px;
+  }
+  .outside-note b{color:var(--orange);}
+
+  /* ---- Keywords ---- */
+  .keywords{display:flex;flex-direction:column;gap:9px;}
+  .kw-row{display:grid;grid-template-columns:140px 1fr 56px;align-items:center;gap:12px;}
+  .kw-name{font-size:13px;font-weight:600;color:var(--ink);}
+  .kw-track{background:#EFEDE7;border-radius:6px;height:18px;overflow:hidden;}
+  .kw-fill{height:100%;background:linear-gradient(90deg,var(--orange),var(--orange-bright));border-radius:6px;}
+  .kw-val{font-size:12px;color:var(--ink-soft);text-align:right;}
+  .kw-sub{font-size:11px;color:#A8A59C;margin-top:8px;}
+
+  footer{
+    margin-top:60px;
+    padding-top:24px;
+    border-top:1px solid var(--line);
+    font-size:11.5px;
+    color:#ACA99E;
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:6px;
+  }
+
+  @media (max-width:640px){
+    .stats{grid-template-columns:1fr 1fr;}
+    .funnel-row{grid-template-columns:120px 1fr 70px;}
+    .article{grid-template-columns:24px 1fr;}
+    .article .metrics{grid-column:2;text-align:left;margin-top:6px;}
+    .kw-row{grid-template-columns:100px 1fr 46px;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="brandmark"><span class="story">Story</span><span class="lab">Lab</span></div>
+    <span class="tag">Coverage report</span>
+  </header>
+
+  <div class="hero">
+    <div class="eyebrow">Press release performance</div>
+    <h1 class="headline">PJ Hegarty announces Maurice Killeen as new Managing Director for Ireland</h1>
+    <div class="meta-row">
+      <div>Issued <strong>20 May 2026, 07:00</strong></div>
+      <div>Tracking window <strong>7 days</strong></div>
+      <div>Reach <strong>100% national</strong></div>
+    </div>
+    <div class="summary">
+      <b>AI summary</b>
+      The leadership announcement was picked up exclusively by national outlets across Ireland and the UK, split between Maurice Killeen's promotion to Managing Director for Ireland and Barry Dodd's parallel appointment leading the UK business — with half of all coverage landing within the first 3 hours.
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="num">8</div>
+      <div class="label">Pieces of coverage</div>
+      <div class="sub">100% national, Ireland &amp; UK trade press</div>
+    </div>
+    <div class="stat">
+      <div class="num">16,308</div>
+      <div class="label">Estimated total viewership</div>
+      <div class="sub">Across 8 articles</div>
+    </div>
+    <div class="stat">
+      <div class="num">37%</div>
+      <div class="label">Of delivered contacts opened</div>
+      <div class="sub">72 of 196 contacts</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>Direct coverage</h2>
+      <div class="note">8 articles, all national</div>
+    </div>
+    <div class="articles">
+
+      <div class="article">
+        <div class="rank">1</div>
+        <div>
+          <div class="title">PJ Hegarty appoints Maurice Killeen as Managing Director for Ireland</div>
+          <div class="outlet-row"><span>Building Ireland</span><span>·</span><span>20 May</span><span>·</span><span>87 article reads</span><span class="flag">Online (Trade) · IE</span></div>
+        </div>
+        <div class="metrics">
+          ~30K/mo site
+          <span class="kmp">Key message <b>0.87</b></span>
+        </div>
+      </div>
+
+      <div class="article">
+        <div class="rank">2</div>
+        <div>
+          <div class="title">PJ Hegarty appoints Maurice Killeen as MD for Ireland</div>
+          <div class="outlet-row"><span>Irish Building Magazine</span><span>·</span><span>1 Jun</span><span>·</span><span>409 article reads</span><span class="flag">Online (Trade) · IE</span></div>
+        </div>
+        <div class="metrics">
+          ~25K/mo site
+          <span class="kmp">Key message <b>0.44</b></span>
+        </div>
+      </div>
+
+      <div class="article">
+        <div class="rank">3</div>
+        <div>
+          <div class="title">PJ Hegarty appoints Maurice Killeen</div>
+          <div class="outlet-row"><span>Business Plus</span><span>·</span><span>20 May</span><span>·</span><span>1,856 article reads</span><span class="flag">Online · IE</span></div>
+        </div>
+        <div class="metrics">
+          ~186K/mo site
+          <span class="kmp">Key message <b>0.75</b></span>
+        </div>
+      </div>
+
+      <div class="article">
+        <div class="rank">4</div>
+        <div>
+          <div class="title">Barry Dodd takes charge at PJ Hegarty UK business</div>
+          <div class="outlet-row"><span>Construction Enquirer</span><span>·</span><span>20 May</span><span>·</span><span>13,844 article reads</span><span class="flag">Online (Trade) · UK</span></div>
+        </div>
+        <div class="metrics">
+          ~500K/mo site
+          <span class="kmp">Key message <b>0.45</b></span>
+        </div>
+      </div>
+
+      <div class="article">
+        <div class="rank">5</div>
+        <div>
+          <div class="title">Barry Dodd takes charge at PJ Hegarty UK business</div>
+          <div class="outlet-row"><span>Infrastructure Now</span><span>·</span><span>20 May</span><span>·</span><span>58 article reads</span><span class="flag">Online (Trade) · UK</span></div>
+        </div>
+        <div class="metrics">
+          ~20K/mo site
+          <span class="kmp">Key message <b>0.42</b></span>
+        </div>
+      </div>
+
+      <div class="article">
+        <div class="rank">6</div>
+        <div>
+          <div class="title">PJ Hegarty appoints Maurice Killeen to lead Irish operations</div>
+          <div class="outlet-row"><span>Building &amp; Architect of the Year Awards</span><span>·</span><span>21 May</span><span>·</span><span>54 article reads</span><span class="flag">Online (Trade) · IE</span></div>
+        </div>
+        <div class="metrics">
+          ~15K/mo site
+          <span class="kmp">Key message <b>0.65</b></span>
+        </div>
+      </div>
+
+      <div class="article">
+        <div class="rank">7</div>
+        <div>
+          <div class="title">PJ Hegarty appoints new Irish Managing Director</div>
+          <div class="outlet-row"><span>The Business Post</span><span>·</span><span>21 May</span><span>·</span><span>readership unavailable</span><span class="flag">Online · IE</span></div>
+        </div>
+        <div class="metrics">
+          ~500K/mo site
+          <span class="kmp">Key message <b>n/a</b></span>
+        </div>
+      </div>
+
+      <div class="article">
+        <div class="rank">8</div>
+        <div>
+          <div class="title">PJ Hegarty appoints Barry Dodd to lead UK operations</div>
+          <div class="outlet-row"><span>Sustainable Construction</span><span>·</span><span>22 May</span><span>·</span><span>readership unavailable</span><span class="flag">Online (Trade) · UK</span></div>
+        </div>
+        <div class="metrics">
+          ~30K/mo site
+          <span class="kmp">Key message <b>n/a</b></span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>Coverage velocity</h2>
+      <div class="note">Cumulative pickup since distribution</div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-wrap">
+        <canvas id="velocityChart" role="img" aria-label="Line chart of cumulative coverage percentage over time after release: 50% at 3 hours, 75% by one day, and reaching 100% after 3 days."></canvas></canvas>
+      </div>
+      <div class="insight">
+        <span>⚡</span>
+        <span><b>50% of coverage landed within the first 3 hours, 75% within 24 hours</b> — a strong initial response from Irish trade titles, with UK pickup following close behind. All coverage was secured within 3 days of distribution.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>List reporting</h2>
+      <div class="note">13 lists used · 196 contacts delivered</div>
+    </div>
+    <div class="funnel">
+      <div class="funnel-row">
+        <div class="funnel-label">Delivered contacts</div>
+        <div class="funnel-track"><div class="funnel-fill" style="width:100%"></div></div>
+        <div>
+          <div class="funnel-value">196</div>
+        </div>
+      </div>
+      <div class="funnel-row">
+        <div class="funnel-label">Opened the release</div>
+        <div class="funnel-track"><div class="funnel-fill" style="width:37%"></div></div>
+        <div>
+          <div class="funnel-value">72</div>
+          <div class="funnel-sub">37% of delivered</div>
+        </div>
+      </div>
+      <div class="funnel-row">
+        <div class="funnel-label">Direct + indirect coverage</div>
+        <div class="funnel-track"><div class="funnel-fill" style="width:6%"></div></div>
+        <div>
+          <div class="funnel-value">4</div>
+          <div class="funnel-sub">6% of opens</div>
+        </div>
+      </div>
+    </div>
+    <div class="outside-note"><b>1 of 72</b> opens converted to direct coverage (contact's own byline), <b>3 of 72</b> to indirect coverage (outlet published without the targeted contact's byline). A further <b>4 articles</b> were secured organically, outside any list — <b>50%</b> of all coverage came from outside the lists used.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>Lists used</h2>
+      <div class="note">All 13 lists</div>
+    </div>
+    <table class="lists">
+      <tr><th>List</th><th>Last updated</th><th>Created by</th><th>Contacts</th><th>Covered</th><th>Outlets</th><th>Covered</th></tr>
+      <tr><td>Business and Finance Journalists, Corrs and Eds</td><td>12 Apr 23</td><td>mkearns</td><td>66</td><td><span class="pill zero">0</span></td><td>27</td><td><span class="pill">1</span></td></tr>
+      <tr><td>Business Eds Traditional Media</td><td>26 Jan 22</td><td>mkearns</td><td>54</td><td><span class="pill zero">0</span></td><td>27</td><td><span class="pill">1</span></td></tr>
+      <tr><td>Online News 2</td><td>7 Nov 23</td><td>cbyrne</td><td>44</td><td><span class="pill zero">0</span></td><td>21</td><td><span class="pill">1</span></td></tr>
+      <tr><td>NI Business List</td><td>14 Apr 23</td><td>cbyrne</td><td>41</td><td><span class="pill zero">0</span></td><td>18</td><td><span class="pill">1</span></td></tr>
+      <tr><td>Building, Architecture and Construction</td><td>2 Apr 25</td><td>cbyrne</td><td>34</td><td><span class="pill">1</span></td><td>23</td><td><span class="pill">3</span></td></tr>
+      <tr><td>ROI Biz Specialist</td><td>18 Apr 23</td><td>cbyrne</td><td>26</td><td><span class="pill zero">0</span></td><td>19</td><td><span class="pill">2</span></td></tr>
+      <tr><td>Irish Business Podcasts</td><td>19 Feb 26</td><td>mkearns</td><td>26</td><td><span class="pill zero">0</span></td><td>16</td><td><span class="pill zero">0</span></td></tr>
+      <tr><td>News Desks TV &amp; Radio</td><td>27 Apr 23</td><td>mkearns</td><td>22</td><td><span class="pill zero">0</span></td><td>14</td><td><span class="pill zero">0</span></td></tr>
+      <tr><td>Property</td><td>27 Apr 23</td><td>mkearns</td><td>18</td><td><span class="pill zero">0</span></td><td>9</td><td><span class="pill">1</span></td></tr>
+      <tr><td>Business Radio</td><td>20 Feb 25</td><td>mkearns</td><td>17</td><td><span class="pill zero">0</span></td><td>7</td><td><span class="pill">1</span></td></tr>
+      <tr><td>National Property Supplements</td><td>27 Apr 23</td><td>mkearns</td><td>10</td><td><span class="pill zero">0</span></td><td>4</td><td><span class="pill">1</span></td></tr>
+      <tr><td>Biz Newsdesks National</td><td>20 Feb 25</td><td>mkearns</td><td>9</td><td><span class="pill zero">0</span></td><td>9</td><td><span class="pill">1</span></td></tr>
+      <tr><td>Business National News Desks IRL</td><td>19 May 26</td><td>cbyrne</td><td>4</td><td><span class="pill zero">0</span></td><td>4</td><td><span class="pill">1</span></td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>Most common keywords</h2>
+      <div class="note">By total mentions across coverage</div>
+    </div>
+    <div class="keywords">
+      <div class="kw-row"><div class="kw-name">PJ Hegarty</div><div class="kw-track"><div class="kw-fill" style="width:100%"></div></div><div class="kw-val">42</div></div>
+      <div class="kw-row"><div class="kw-name">Maurice Killeen</div><div class="kw-track"><div class="kw-fill" style="width:67%"></div></div><div class="kw-val">28</div></div>
+      <div class="kw-row"><div class="kw-name">Managing Director</div><div class="kw-track"><div class="kw-fill" style="width:57%"></div></div><div class="kw-val">24</div></div>
+      <div class="kw-row"><div class="kw-name">Ireland</div><div class="kw-track"><div class="kw-fill" style="width:45%"></div></div><div class="kw-val">19</div></div>
+      <div class="kw-row"><div class="kw-name">Barry Dodd</div><div class="kw-track"><div class="kw-fill" style="width:40%"></div></div><div class="kw-val">17</div></div>
+      <div class="kw-row"><div class="kw-name">Construction</div><div class="kw-track"><div class="kw-fill" style="width:31%"></div></div><div class="kw-val">13</div></div>
+      <div class="kw-row"><div class="kw-name">UK</div><div class="kw-track"><div class="kw-fill" style="width:33%"></div></div><div class="kw-val">14</div></div>
+    </div>
+    <div class="kw-sub">"PJ Hegarty" appeared in the headline of all 8 articles; "Maurice Killeen" in 4 of 8.</div>
+  </div>
+
+  <footer>
+    <span>Generated from MediaHQ press release tracking</span>
+    <span>PJ Hegarty leadership appointment release · 20–27 May 2026</span>
+  </footer>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+new Chart(document.getElementById('velocityChart'), {
+  type: 'line',
+  data: {
+    labels: ['3h','6h','12h','1d','2d','3d','4d','5d','6d','7d'],
+    datasets: [{
+      label: 'Cumulative coverage',
+      data: [50,50,63,75,88,100,100,100,100,100],
+      borderColor: '#4A4850',
+      backgroundColor: 'rgba(232,84,13,0.12)',
+      fill: true,
+      tension: 0.35,
+      pointRadius: 3,
+      pointBackgroundColor: '#E8540D',
+      borderWidth: 2.5
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { min: 0, max: 100, ticks: { callback: v => v + '%', color: '#9D9A91', font:{family:'Inter',size:11} }, grid: { color: '#F0EEE7' } },
+      x: { ticks: { color: '#9D9A91', font:{family:'Inter',size:11} }, grid: { display: false } }
+    }
+  }
+});
+</script>
+
+</body>
+</html>
